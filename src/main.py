@@ -6,10 +6,9 @@ import argparse
 from pathlib import Path
 
 from .load_data import (
-    calculate_model_popularity,
+    get_models_from_jobs,
     load_cluster,
     load_jobs,
-    load_models,
 )
 from .fgd import ClusterState
 from .scheduler import Config, schedule
@@ -21,7 +20,6 @@ def process_single_file(
     input_file: Path,
     output_dir: Path,
     device_config_path: Path | None = None,
-    models_config_path: Path | None = None,
     use_dynamic_gpus: bool = True,
 ) -> None:
     """Process a single input file and write outputs.
@@ -30,22 +28,20 @@ def process_single_file(
         input_file: Path to input CSV file
         output_dir: Directory to write output files
         device_config_path: Path to device config (defaults to config/device-config.json)
-        models_config_path: Path to models config (defaults to config/models-config.json)
         use_dynamic_gpus: If True, automatically scale up GPUs if jobs don't fit
     """
-    # Load models and cluster
-    models = load_models(models_config_path)
+    # Load cluster
     cluster = load_cluster(device_config_path)
     
     # Load jobs from input file
-    jobs = load_jobs(input_file, models_config_path)
+    jobs = load_jobs(input_file)
     
     if not jobs:
         print(f"Warning: No jobs found in {input_file}")
         return
     
-    # Calculate model popularity from job distribution
-    models = calculate_model_popularity(models, jobs)
+    # Infer models and calculate popularity from job distribution
+    models = get_models_from_jobs(jobs)
     
     config = Config()
     
@@ -90,7 +86,6 @@ def process_input_folder(
     input_folder: Path,
     output_dir: Path,
     device_config_path: Path | None = None,
-    models_config_path: Path | None = None,
     use_dynamic_gpus: bool = True,
 ) -> None:
     """Process all CSV files in a folder.
@@ -99,7 +94,6 @@ def process_input_folder(
         input_folder: Folder containing input CSV files
         output_dir: Directory to write output files
         device_config_path: Path to device config (defaults to config/device-config.json)
-        models_config_path: Path to models config (defaults to config/models-config.json)
         use_dynamic_gpus: If True, automatically scale up GPUs if jobs don't fit
     """
     input_folder = Path(input_folder)
@@ -121,7 +115,6 @@ def process_input_folder(
                 csv_file,
                 output_dir,
                 device_config_path,
-                models_config_path,
                 use_dynamic_gpus,
             )
         except Exception as e:

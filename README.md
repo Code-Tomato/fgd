@@ -4,6 +4,12 @@ Fragmentation Gradient Descent (FGD) scheduler for GPU-sharing workloads.
 
 **Reference**: Weng et al., "Beware of Fragmentation: Scheduling GPU-Sharing Workloads with Fragmentation Gradient Descent (FGD)" (USENIX ATC '23)
 
+## Assumptions
+
+- All GPUs are homogeneous (identical capacity)
+- All GPUs start empty (no pre-existing allocations)
+- CPU resources are not considered (GPU-only scheduling)
+
 ## Usage
 
 ```bash
@@ -19,23 +25,20 @@ python3 -m src.main --input input/ --output output/
 
 ## Input Format
 
-CSV files in Usher-style format:
+CSV files with one job per line:
 ```
-5
-1,0.25,
-2,0.5,
-3,0.75,
-1,0.25,
-2,0.3,
+resnet50,0.25,
+mobilenet_v3_large,0.5,
+vgg11,0.75,
+resnet50,0.25,
+mobilenet_v3_large,0.3,
 ```
 
-First line: number of jobs  
-Subsequent lines: `model_id,gpu_demand,`
+Each line: `model_name,gpu_demand,`  
 
 ## Configuration
 
 - `config/device-config.json`: Number of GPUs
-- `config/models-config.json`: List of model names
 
 ## Output
 

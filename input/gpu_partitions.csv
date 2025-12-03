@@ -1,0 +1,11 @@
+resnet50,0.57
+mobilenet_v3_large,0.14
+vgg11,0.43
+resnet152,0.57
+densenet169,0.43
+densenet161,0.43
+vgg19,0.29
+diffusion_1024_1024,0.57
+diffusion_256_256,0.43
+whisper,0.43
+gpt,0.57

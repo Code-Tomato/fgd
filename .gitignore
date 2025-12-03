@@ -17,9 +17,6 @@ env/
 *.swo
 *~
 
-# Output files
-output/
-
 # Distribution
 dist/
 build/

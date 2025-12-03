@@ -13,11 +13,9 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Iterable, List, Optional, Sequence, Tuple
 
-
 # ---------------------------------------------------------------------------
 # Data structures
 # ---------------------------------------------------------------------------
-
 
 @dataclass
 class Model:
@@ -25,13 +23,11 @@ class Model:
     model_name: str
     popularity: float
 
-
 @dataclass
 class Job:
     """Represents a job to be scheduled."""
     model_name: str
     gpu_demand: float
-
 
 @dataclass
 class ClusterState:
@@ -41,18 +37,15 @@ class ClusterState:
     def copy(self) -> "ClusterState":
         return ClusterState(self.gpus.copy())
 
-
 @dataclass
 class Config:
     """Minimal configuration needed for core FGD algorithm."""
     epsilon: float = 1e-9
     epsilon_int: float = 1e-6
 
-
 # ---------------------------------------------------------------------------
 # Core FGD Algorithm
 # ---------------------------------------------------------------------------
-
 
 def compute_fragmentation(
     cluster: ClusterState, workload: Sequence[Model], jobs: Sequence[Job], config: Config
@@ -101,7 +94,6 @@ def compute_fragmentation(
     frag_rate = 0.0 if total_leftover <= config.epsilon else expected_fragmentation / total_leftover
     return frag_rate
 
-
 def fgd_decide_placement(
     job: Job, cluster: ClusterState, workload: Sequence[Model], jobs: Sequence[Job], config: Config
 ) -> Optional[Tuple[int, ...]]:
@@ -143,11 +135,9 @@ def fgd_decide_placement(
 
     return best_indices
 
-
 # ---------------------------------------------------------------------------
 # Helper Functions
 # ---------------------------------------------------------------------------
-
 
 def _classify_gpu_demand(value: float, config: Config) -> Tuple[str, float]:
     """Identify whether a demand is zero, fractional, or integer-sized."""
@@ -171,7 +161,6 @@ def _classify_gpu_demand(value: float, config: Config) -> Tuple[str, float]:
         "GPU demand must be fractional <= 1 or near an integer; "
         f"received {value}"
     )
-
 
 def _fragmentation_amount_for_task(
     gpus: Sequence[float], gpu_demand: float, config: Config
@@ -203,7 +192,6 @@ def _fragmentation_amount_for_task(
 
     return sum(gpu for gpu in gpus if gpu + config.epsilon < fractional)
 
-
 def _enumerate_candidates(
     job: Job, gpus: Sequence[float], config: Config
 ) -> Iterable[Optional[Tuple[int, ...]]]:
@@ -229,7 +217,6 @@ def _enumerate_candidates(
     if len(whole_indices) >= k:
         yield tuple(whole_indices[:k])
 
-
 def _apply_allocation(
     gpus: List[float], job: Job, indices: Optional[Tuple[int, ...]], config: Config
 ) -> None:
@@ -249,7 +236,6 @@ def _apply_allocation(
     for idx in indices[:k]:
         gpus[idx] = max(0.0, min(1.0, gpus[idx] - 1.0))
 
-
 __all__ = [
     "ClusterState",
     "Config",
@@ -258,4 +244,3 @@ __all__ = [
     "compute_fragmentation",
     "fgd_decide_placement",
 ]
-
