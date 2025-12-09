@@ -6,22 +6,22 @@ Total GPUs used: 5
 
 
 GPU(id=0, gpu_demand=1.00/1.00, fragmentation=0.00%)
-    - resnet50 (gpu_demand=0.57)
-    - vgg11 (gpu_demand=0.43)
-
-GPU(id=1, gpu_demand=1.00/1.00, fragmentation=0.00%)
-    - mobilenet_v3_large (gpu_demand=0.14)
-    - vgg19 (gpu_demand=0.29)
-    - diffusion_1024_1024 (gpu_demand=0.57)
-
-GPU(id=2, gpu_demand=1.00/1.00, fragmentation=0.00%)
-    - resnet152 (gpu_demand=0.57)
-    - densenet169 (gpu_demand=0.43)
-
-GPU(id=3, gpu_demand=0.86/1.00, fragmentation=14.00%)
     - densenet161 (gpu_demand=0.43)
-    - whisper (gpu_demand=0.43)
+    - resnet50 (gpu_demand=0.57)
 
-GPU(id=4, gpu_demand=1.00/1.00, fragmentation=0.00%)
+GPU(id=1, gpu_demand=0.87/1.00, fragmentation=13.00%)
+    - densenet169 (gpu_demand=0.29)
+    - mobilenet_v3_large (gpu_demand=0.29)
+    - resnet152 (gpu_demand=0.29)
+
+GPU(id=2, gpu_demand=0.72/1.00, fragmentation=28.00%)
     - diffusion_256_256 (gpu_demand=0.43)
-    - gpt (gpu_demand=0.57)
+    - vgg11 (gpu_demand=0.29)
+
+GPU(id=3, gpu_demand=0.72/1.00, fragmentation=28.00%)
+    - diffusion_1024_1024 (gpu_demand=0.43)
+    - vgg19 (gpu_demand=0.29)
+
+GPU(id=4, gpu_demand=0.72/1.00, fragmentation=28.00%)
+    - gpt (gpu_demand=0.43)
+    - whisper (gpu_demand=0.29)
